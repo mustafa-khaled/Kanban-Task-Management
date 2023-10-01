@@ -5,8 +5,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        bgc: "var(--color-grey-50)",
-        contentBgc: "var(--color-grey-100)",
+        bgc: "var(--color-grey-100)",
+        contentBgc: "var(--color-grey-50)",
         borderColor: "var(--color-grey-100)",
         textColor: "var(--color-grey-600)",
         hoverText: "var( --color-grey-400)",
@@ -17,5 +17,5 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar-hide")],
 };

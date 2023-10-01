@@ -4,10 +4,11 @@ import logo from "/logo.jpg";
 import iconDown from "../../assets/icon-chevron-down.svg";
 import iconUp from "../../assets/icon-chevron-up.svg";
 import Button from "../Button";
-
 import ellipsis from "../../assets/icon-vertical-ellipsis.svg";
+import HeaderDropdown from "./HeaderDropdown";
+import AddEditBoard from "../../modals/AddEditBoard";
 
-function Header() {
+function Header({ boardModalOpen, setBoardModalOpen }) {
   const [openDropDown, setOpenDropDown] = useState(false);
 
   return (
@@ -39,6 +40,15 @@ function Header() {
           <img src={ellipsis} alt="ellipsis" className="h-6 cursor-pointer" />
         </div>
       </div>
+
+      {openDropDown && (
+        <HeaderDropdown
+          setOpenDropDown={setOpenDropDown}
+          setBoardModalOpen={setBoardModalOpen}
+        />
+      )}
+
+      {boardModalOpen && <AddEditBoard setBoardModalOpen={setBoardModalOpen} />}
     </header>
   );
 }
