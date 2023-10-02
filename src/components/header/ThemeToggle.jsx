@@ -1,6 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
 import { toggleTheme } from "../../redux/features/themeSlice";
-import { useEffect } from "react";
 import { Switch } from "@headlessui/react";
 
 import lightIcon from "../../assets/icon-light-theme.svg";
@@ -9,16 +8,6 @@ import darkIcon from "../../assets/icon-dark-theme.svg";
 function ThemeToggle() {
   const { theme } = useSelector((state) => state.theme);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (theme) {
-      document.documentElement.classList.add("dark");
-      document.documentElement.classList.remove("light");
-    } else {
-      document.documentElement.classList.add("light");
-      document.documentElement.classList.remove("dark");
-    }
-  }, [theme]);
 
   const handleToggle = () => {
     dispatch(toggleTheme());

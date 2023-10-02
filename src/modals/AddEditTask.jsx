@@ -1,27 +1,101 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
-import crossIcon from "../assets/icon-cross.svg";
+import { v4 as v4Uuid } from "uuid";
+import { addTask, editTask } from "../redux/features/boardsSlice";
 
-function AddEditTask({ type, device, setOpenAddEditTask }) {
+import crossIcon from "../assets/icon-cross.svg";
+import Button from "../components/Button";
+
+function AddEditTask({
+  type,
+  device,
+  setOpenAddEditTask,
+  prevColIndex = 0,
+  taskIndex,
+}) {
+  const dispatch = useDispatch();
+  const [isValid, setIsValid] = useState(true);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [subtasks, setSubtasks] = useState([
     {
       title: "",
       isCompleted: false,
-      id: uuidv4(),
+      id: v4Uuid(),
     },
     {
       title: "",
       isCompleted: false,
-      id: uuidv4(),
+      id: v4Uuid(),
     },
   ]);
 
-  const onChangeSubtasks = () => {};
+  const board = useSelector((state) => state.boards).find(
+    (board) => board.isActive,
+  );
 
-  const onDelete = () => {};
+  const columns = board.columns;
+  const col = columns.find((co, index) => index === prevColIndex);
+  const [status, setStatus] = useState(columns[prevColIndex].name);
+  const [newColIndex, setNewColIndex] = useState(prevColIndex);
+
+  const onChangeSubtasks = (id, newValue) => {
+    setSubtasks((prev) => {
+      const newSate = [...prev];
+      const subtasks = newSate.find((task) => task.id === id);
+      subtasks.title = newValue;
+      return newSate;
+    });
+  };
+
+  const onChangeStatus = (e) => {
+    setStatus(e.target.value);
+    setNewColIndex(e.target.selectedIndex);
+  };
+
+  const onDelete = (id) => {
+    setSubtasks((prev) => prev.filter((el) => el.id !== id));
+  };
+
+  const addNewInputTask = () => {
+    setSubtasks((prev) => [
+      ...prev,
+      { title: "", isCompleted: false, id: v4Uuid() },
+    ]);
+  };
+
+  const validate = () => {
+    setIsValid(false);
+    if (!title.trim()) {
+      return false;
+    }
+    for (let i = 0; i < subtasks?.length; i++) {
+      if (!subtasks[i].title.trim()) {
+        return false;
+      }
+    }
+    setIsValid(true);
+    return true;
+  };
+
+  const onSubmit = () => {
+    setOpenAddEditTask(false);
+    if (type === "add") {
+      dispatch(addTask({ title, description, subtasks, status, newColIndex }));
+    } else {
+      dispatch(
+        editTask({
+          title,
+          description,
+          subtasks,
+          status,
+          taskIndex,
+          newColIndex,
+          prevColIndex,
+        }),
+      );
+    }
+  };
 
   return (
     <div
@@ -105,21 +179,35 @@ function AddEditTask({ type, device, setOpenAddEditTask }) {
           ))}
         </div>
 
+        <Button styles="w-full mt-4" type="secondary" onClick={addNewInputTask}>
+          + Add New Subtasks
+        </Button>
+
         {/* current Status  */}
         <div className="mt-8 flex flex-col space-y-3">
           <label className="  text-sm text-gray-500 dark:text-white">
             Current Status
           </label>
 
-          {/* <select
+          <select
             value={status}
             onChange={onChangeStatus}
-            className=" select-status flex-grow rounded-md border-[1px] border-gray-300 bg-transparent px-4 py-2  text-sm outline-none focus:border-0 focus:outline-[#635fc7]"
+            className="select-status input"
           >
-            {columns.map((column, index) => (
+            {columns?.map((column, index) => (
               <option key={index}>{column.name}</option>
             ))}
-          </select> */}
+          </select>
+
+          <Button
+            styles="w-full mt-4"
+            onClick={() => {
+              const valid = validate();
+              if (valid) onSubmit(type);
+            }}
+          >
+            {type === "edit" ? "Save Edit" : "Create Task"}
+          </Button>
         </div>
       </div>
     </div>

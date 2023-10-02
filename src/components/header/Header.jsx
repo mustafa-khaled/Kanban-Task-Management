@@ -60,7 +60,11 @@ function Header({ boardModalOpen, setBoardModalOpen }) {
       )}
 
       {openAddEditTask && (
-        <AddEditTask setOpenAddEditTask={setOpenAddEditTask} device="mobile" />
+        <AddEditTask
+          setOpenAddEditTask={setOpenAddEditTask}
+          device="mobile"
+          type="add"
+        />
       )}
     </header>
   );

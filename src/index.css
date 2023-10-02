@@ -90,3 +90,10 @@ body {
     @apply flex-grow rounded-md border-[0.5px] border-textColor bg-transparent px-4  py-2 text-sm  outline-none outline-[1px] focus:border-colorBrand;
   }
 }
+
+.select-status {
+  background-image: url("./assets/icon-chevron-down.svg");
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 16px top 50%;
+}
