@@ -11,7 +11,6 @@ function App() {
         boardModalOpen={boardModalOpen}
         setBoardModalOpen={setBoardModalOpen}
       />
-
       <Center />
     </div>
   );

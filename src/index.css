@@ -84,3 +84,9 @@
 body {
   font-family: "Roboto", sans-serif;
 }
+
+@layer components {
+  .input {
+    @apply flex-grow rounded-md border-[0.5px] border-textColor bg-transparent px-4  py-2 text-sm  outline-none outline-[1px] focus:border-colorBrand;
+  }
+}
