@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { v4 as v4Uuid } from "uuid";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addBoard, editBoard } from "../redux/features/boardsSlice";
 
 import crossImage from "../assets/icon-cross.svg";
@@ -8,12 +8,26 @@ import Button from "../components/Button";
 
 function AddEditBoard({ setBoardModalOpen, type }) {
   const dispatch = useDispatch();
+  const board = useSelector((state) => state.boards).find((b) => b.isActive);
+
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+
   const [name, setName] = useState("");
   const [isValid, setIsValid] = useState(true);
   const [newColumns, setNewColumns] = useState([
     { name: "Todo", task: [], id: v4Uuid() },
     { name: "Doing", task: [], id: v4Uuid() },
   ]);
+
+  if (type === "edit" && isFirstLoad) {
+    setNewColumns(
+      board?.columns?.map((el) => {
+        return { ...el, id: v4Uuid() };
+      }),
+    );
+    setName(board?.name);
+    setIsFirstLoad(false);
+  }
 
   const handleChange = (id, newValue) => {
     setNewColumns((prev) => {
@@ -113,7 +127,7 @@ function AddEditBoard({ setBoardModalOpen, type }) {
 
         <Button
           styles="w-full mt-4"
-          type="secondary"
+          variation="secondary"
           onClick={addNewInputColumn}
         >
           + Add New Column

@@ -1,22 +1,50 @@
 import { useState } from "react";
-import logo from "/logo.jpg";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteBoard, setBoardActive } from "../../redux/features/boardsSlice";
 
+import logo from "/logo.jpg";
 import iconDown from "../../assets/icon-chevron-down.svg";
 import iconUp from "../../assets/icon-chevron-up.svg";
 import Button from "../Button";
 import ellipsis from "../../assets/icon-vertical-ellipsis.svg";
 import HeaderDropdown from "./HeaderDropdown";
 import AddEditBoard from "../../modals/AddEditBoard";
-import { useSelector } from "react-redux";
 import AddEditTask from "../../modals/AddEditTask";
+import EllipsisMenu from "./EllipsisMenu";
+import DeleteModal from "../../modals/DaleteModal";
 
 function Header({ boardModalOpen, setBoardModalOpen }) {
+  const dispatch = useDispatch();
   const [openDropDown, setOpenDropDown] = useState(false);
   const [boardType, setBoardType] = useState("add");
   const [openAddEditTask, setOpenAddEditTask] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEllipsisOpen, setIsEllipsisOpen] = useState(false);
 
   const boards = useSelector((state) => state.boards);
   const board = boards.find((board) => board.isActive);
+
+  const setOpenEditModal = () => {
+    setBoardModalOpen(true);
+    setIsEllipsisOpen(false);
+  };
+
+  const setOpenDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+    setIsEllipsisOpen(false);
+  };
+
+  const onDeleteBtnClick = () => {
+    dispatch(deleteBoard());
+    dispatch(setBoardActive({ index: 0 }));
+    setIsDeleteModalOpen(false);
+  };
+
+  const onDropdownClick = () => {
+    setBoardType("add");
+    setOpenDropDown((prev) => !prev);
+    setIsEllipsisOpen(false);
+  };
 
   return (
     <header className="fixed left-0 right-0 z-50 bg-contentBgc p-4">
@@ -33,7 +61,7 @@ function Header({ boardModalOpen, setBoardModalOpen }) {
               src={openDropDown ? iconUp : iconDown}
               alt="drag drop icon"
               className="ml-2 w-3 cursor-pointer md:hidden"
-              onClick={() => setOpenDropDown((prev) => !prev)}
+              onClick={() => onDropdownClick()}
             />
           </div>
         </div>
@@ -44,7 +72,25 @@ function Header({ boardModalOpen, setBoardModalOpen }) {
             <span className="hidden md:block">+ Add New Task</span>
             <span className="block md:hidden">+</span>
           </Button>
-          <img src={ellipsis} alt="ellipsis" className="h-6 cursor-pointer" />
+          {/* Ellipsis Image */}
+          <div
+            className="w-[30px] cursor-pointer"
+            onClick={() => {
+              setBoardType("edit");
+              setOpenDropDown(false);
+              setIsEllipsisOpen((prev) => !prev);
+            }}
+          >
+            <img src={ellipsis} alt="ellipsis" className="mx-auto h-6" />
+          </div>
+          {isEllipsisOpen && (
+            <EllipsisMenu
+              type="Boards"
+              setIsEllipsisOpen={setIsEllipsisOpen}
+              setOpenEditModal={setOpenEditModal}
+              setOpenDeleteModal={setOpenDeleteModal}
+            />
+          )}
         </div>
       </div>
 
@@ -64,6 +110,15 @@ function Header({ boardModalOpen, setBoardModalOpen }) {
           setOpenAddEditTask={setOpenAddEditTask}
           device="mobile"
           type="add"
+        />
+      )}
+
+      {isDeleteModalOpen && (
+        <DeleteModal
+          setIsDeleteModalOpen={setIsDeleteModalOpen}
+          onDeleteBtnClick={onDeleteBtnClick}
+          title={board?.name}
+          type="Board"
         />
       )}
     </header>
