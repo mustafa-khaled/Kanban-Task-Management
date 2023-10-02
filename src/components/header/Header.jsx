@@ -50,11 +50,10 @@ function Header({ boardModalOpen, setBoardModalOpen }) {
     <header className="fixed left-0 right-0 z-50 bg-contentBgc p-4">
       <div className="flex items-center justify-between">
         {/* Left Side */}
-        <div className="flex items-center space-x-2 md:space-x-4">
+        <div className="flex items-center space-x-2 ">
           <img src={logo} alt="Logo" className="h-9 w-9" />
-          <h3 className="hidden font-bold md:inline-block md:text-4xl">Logo</h3>
           <div className="flex items-center">
-            <h3 className="max-w-[200px] truncate text-xl font-bold md:ml-20 md:text-2xl">
+            <h3 className="max-w-[200px] truncate text-xl font-bold  md:text-2xl">
               {board?.name}
             </h3>
             <img
