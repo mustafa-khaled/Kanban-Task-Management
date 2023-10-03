@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteBoard, setBoardActive } from "../../redux/features/boardsSlice";
 
-import logo from "/logo.jpg";
 import iconDown from "../../assets/icon-chevron-down.svg";
 import iconUp from "../../assets/icon-chevron-up.svg";
 import Button from "../Button";
@@ -11,7 +10,8 @@ import HeaderDropdown from "./HeaderDropdown";
 import AddEditBoard from "../../modals/AddEditBoard";
 import AddEditTask from "../../modals/AddEditTask";
 import EllipsisMenu from "./EllipsisMenu";
-import DeleteModal from "../../modals/DaleteModal";
+import DeleteModal from "../../modals/DeleteModal";
+import Logo from "/logo.svg";
 
 function Header({ boardModalOpen, setBoardModalOpen }) {
   const dispatch = useDispatch();
@@ -50,8 +50,8 @@ function Header({ boardModalOpen, setBoardModalOpen }) {
     <header className="fixed left-0 right-0 z-50 bg-contentBgc p-4">
       <div className="flex items-center justify-between">
         {/* Left Side */}
-        <div className="flex items-center space-x-2 ">
-          <img src={logo} alt="Logo" className="h-9 w-9" />
+        <div className="flex items-center space-x-4 ">
+          <img src={Logo} alt="logo" />
           <div className="flex items-center">
             <h3 className="max-w-[200px] truncate text-xl font-bold  md:text-2xl">
               {board?.name}

@@ -36,7 +36,7 @@ function AddEditTask({
 
   const columns = board.columns;
   const col = columns.find((co, index) => index === prevColIndex);
-  const [status, setStatus] = useState(columns[prevColIndex].name);
+  const [status, setStatus] = useState(columns[prevColIndex]?.name);
   const [newColIndex, setNewColIndex] = useState(prevColIndex);
 
   const onChangeSubtasks = (id, newValue) => {
@@ -101,8 +101,8 @@ function AddEditTask({
     <div
       className={
         device === "mobile"
-          ? " dropdown  absolute bottom-[-100vh] left-0 right-0  top-0 flex  overflow-y-scroll bg-[#00000080]  px-6 py-6 pb-40 scrollbar-hide "
-          : "  dropdown absolute bottom-0  left-0 right-0  top-0 flex  overflow-y-scroll px-6 py-6 pb-40 "
+          ? "dropdown  absolute bottom-[-100vh] left-0 right-0  top-0 flex  overflow-y-scroll bg-[#00000080]  px-6 py-6 pb-40 scrollbar-hide "
+          : "dropdown absolute bottom-0  left-0 right-0  top-0 flex  overflow-y-scroll px-6 py-6 pb-40 "
       }
       onClick={(e) => {
         if (e.target !== e.currentTarget) {

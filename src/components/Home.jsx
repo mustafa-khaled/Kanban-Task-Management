@@ -34,11 +34,11 @@ function Home() {
   return (
     <div
       className={`
-        gap-6  overflow-x-scroll bg-bgc  scrollbar-hide 
+         gap-6 overflow-auto bg-bgc pb-4
         ${
           windowSize[0] >= 768 && isSideBarOpen
-            ? `ml-[261px]  flex h-screen  `
-            : `flex  h-screen gap-6    `
+            ? `ml-[261px] flex h-screen`
+            : `flex h-screen gap-6`
         }`}
     >
       {windowSize[0] >= 768 && (

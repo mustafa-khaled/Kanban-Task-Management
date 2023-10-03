@@ -97,3 +97,16 @@ body {
   background-repeat: no-repeat;
   background-position: right 16px top 50%;
 }
+
+*::-webkit-scrollbar {
+  width: 10px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 20px;
+  background-color: var(--color-grey-100);
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 20px;
+  background-color: var(--color-brand-600);
+}

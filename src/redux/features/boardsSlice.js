@@ -40,7 +40,7 @@ const boardsSlice = createSlice({
       const task = { title, description, subtasks, status };
       const board = state.find((board) => board.isActive);
       const column = board.columns.find((col, index) => index === newColIndex);
-      column.tasks.push(task);
+      column?.tasks?.push(task);
     },
     editTask: (state, action) => {
       const {
