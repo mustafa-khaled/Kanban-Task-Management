@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setBoardActive } from "../redux/features/boardsSlice";
 import { useEffect, useState } from "react";
 
-import Center from "./Center";
+import Home from "./Home";
 import Header from "./header/Header";
 import EmptyBoard from "./EmptyBoard";
 
@@ -35,7 +35,7 @@ function AppLayout() {
             boardModalOpen={boardModalOpen}
             setBoardModalOpen={setBoardModalOpen}
           />
-          <Center />
+          <Home />
         </>
       ) : (
         <EmptyBoard type="add" />
