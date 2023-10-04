@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import AddEditBoard from "../modals/AddEditBoard";
+
+import AddEditBoardModal from "../modals/AddEditBoardModal";
 import Column from "./Column";
 import EmptyBoard from "./EmptyBoard";
 import Sidebar from "./Sidebar";
@@ -39,8 +40,7 @@ function Home() {
           windowSize[0] >= 768 && isSideBarOpen
             ? `ml-[261px] flex h-screen`
             : `flex h-screen gap-6`
-        }`}
-    >
+        }`}>
       {windowSize[0] >= 768 && (
         <Sidebar
           setIsBoardModalOpen={setIsBoardModalOpen}
@@ -61,11 +61,11 @@ function Home() {
             onClick={() => {
               setIsBoardModalOpen(true);
             }}
-            className=" mx-5 mb-2 mt-[135px] flex h-screen min-w-[280px] cursor-pointer
-            items-center justify-center rounded-lg bg-contentBgc 
-            pt-[90px] text-2xl font-bold  transition duration-300 
-            scrollbar-hide hover:text-colorBrand"
-          >
+            className="h-screen bg-contentBgc flex justify-center
+             items-center font-bold text-2xl hover:text-blue
+              transition duration-300 cursor-pointer scrollbar-hide mb-2
+                mx-5 pt-[90px] min-w-[280px]
+                mt-[135px] rounded-lg">
             + New Column
           </div>
         </>
@@ -75,7 +75,10 @@ function Home() {
         </>
       )}
       {isBoardModalOpen && (
-        <AddEditBoard type="edit" setBoardModalOpen={setIsBoardModalOpen} />
+        <AddEditBoardModal
+          type="edit"
+          setIsBoardModalOpen={setIsBoardModalOpen}
+        />
       )}
     </div>
   );

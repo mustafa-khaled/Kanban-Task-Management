@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import data from "../../data/data.json";
+import data from "../data.json";
 
 const boardsSlice = createSlice({
   name: "boards",
@@ -40,7 +40,7 @@ const boardsSlice = createSlice({
       const task = { title, description, subtasks, status };
       const board = state.find((board) => board.isActive);
       const column = board.columns.find((col, index) => index === newColIndex);
-      column?.tasks?.push(task);
+      column.tasks.push(task);
     },
     editTask: (state, action) => {
       const {
@@ -101,10 +101,10 @@ const boardsSlice = createSlice({
 });
 
 export const {
-  setBoardActive,
-  deleteBoard,
-  editBoard,
   addBoard,
+  editBoard,
+  deleteBoard,
+  setBoardActive,
   addTask,
   editTask,
   dragTask,
@@ -112,4 +112,5 @@ export const {
   setTaskStatus,
   deleteTask,
 } = boardsSlice.actions;
-export default boardsSlice.reducer;
+
+export default boardsSlice;

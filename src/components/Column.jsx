@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { shuffle } from "lodash";
+import { useDispatch, useSelector } from "react-redux";
+
+import boardsSlice from "../redux/boardsSlice";
 import Task from "./Task";
 
 const colors = [
@@ -18,31 +20,40 @@ const colors = [
 function Column({ colIndex }) {
   const dispatch = useDispatch();
   const [color, setColor] = useState(null);
-
   const boards = useSelector((state) => state.boards);
-  const board = boards.find((b) => b.isActive);
-  const col = board.columns.find((c, i) => i === colIndex);
-
+  const board = boards.find((board) => board.isActive === true);
+  const col = board.columns.find((col, i) => i === colIndex);
   useEffect(() => {
     setColor(shuffle(colors).pop());
   }, [dispatch]);
 
-  const handleOnDrop = () => {};
+  const handleOnDrop = (e) => {
+    const { prevColIndex, taskIndex } = JSON.parse(
+      e.dataTransfer.getData("text")
+    );
 
-  const handleOnDragOver = () => {};
+    if (colIndex !== prevColIndex) {
+      dispatch(
+        boardsSlice.actions.dragTask({ colIndex, prevColIndex, taskIndex })
+      );
+    }
+  };
+
+  const handleOnDragOver = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <div
       onDrop={handleOnDrop}
       onDragOver={handleOnDragOver}
-      className="mx-5   min-w-[280px] pt-[90px] scrollbar-hide "
-    >
-      <p className="flex items-center gap-2 font-semibold tracking-widest md:tracking-[.2em]">
-        <span className={`h-4 w-4 rounded-full ${color}`} />
-        {col.name} ({col?.tasks?.length})
+      className="scrollbar-hide   mx-5 pt-[90px] min-w-[280px] ">
+      <p className="font-semibold flex  items-center  gap-2 tracking-widest md:tracking-[.2em]">
+        <span className={`rounded-full w-4 h-4 ${color}`} />
+        {col.name} ({col.tasks.length})
       </p>
 
-      {col?.tasks?.map((task, index) => (
+      {col.tasks.map((task, index) => (
         <Task key={index} taskIndex={index} colIndex={colIndex} />
       ))}
     </div>

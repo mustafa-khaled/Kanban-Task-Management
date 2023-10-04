@@ -1,21 +1,20 @@
-import { useDispatch, useSelector } from "react-redux";
-import { setBoardActive } from "../redux/features/boardsSlice";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setBoardActive } from "../redux/boardsSlice";
 
+import Header from "./Header";
 import Home from "./Home";
-import Header from "./header/Header";
 import EmptyBoard from "./EmptyBoard";
 
 function AppLayout() {
   const dispatch = useDispatch();
   const { theme } = useSelector((state) => state.theme);
   const boards = useSelector((state) => state.boards);
-  const activeBoard = boards.find((b) => b.isActive);
-  if (!activeBoard && boards?.length > 0) {
-    dispatch(setBoardActive({ index: 0 }));
-  }
+  const activeBoard = boards.find((board) => board.isActive);
 
-  const [boardModalOpen, setBoardModalOpen] = useState(false);
+  const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
+
+  if (!activeBoard && boards.length > 0) dispatch(setBoardActive({ index: 0 }));
 
   useEffect(() => {
     if (theme) {
@@ -29,17 +28,24 @@ function AppLayout() {
 
   return (
     <div className="overflow-hidden overflow-x-auto bg-bgc text-textColor">
-      {boards?.length > 0 ? (
-        <>
-          <Header
-            boardModalOpen={boardModalOpen}
-            setBoardModalOpen={setBoardModalOpen}
-          />
-          <Home />
-        </>
-      ) : (
-        <EmptyBoard type="add" />
-      )}
+      <>
+        {boards.length > 0 ? (
+          <>
+            <Header
+              setIsBoardModalOpen={setIsBoardModalOpen}
+              isBoardModalOpen={isBoardModalOpen}
+            />
+            <Home
+              setIsBoardModalOpen={setIsBoardModalOpen}
+              isBoardModalOpen={isBoardModalOpen}
+            />
+          </>
+        ) : (
+          <>
+            <EmptyBoard type="add" />
+          </>
+        )}
+      </>
     </div>
   );
 }

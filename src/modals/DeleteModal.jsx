@@ -1,4 +1,4 @@
-import Button from "../components/Button";
+import Button from "../components/Button.jsx";
 
 function DeleteModal({ type, title, onDeleteBtnClick, setIsDeleteModalOpen }) {
   return (
@@ -10,42 +10,35 @@ function DeleteModal({ type, title, onDeleteBtnClick, setIsDeleteModalOpen }) {
         }
         setIsDeleteModalOpen(false);
       }}
-      className="dropdown fixed bottom-0 left-0 right-0 top-0 z-50  flex items-center justify-center overflow-scroll px-2 py-4 scrollbar-hide"
-    >
+      className="fixed right-0 top-0 px-2 py-4 overflow-scroll scrollbar-hide  z-50 left-0 bottom-0 justify-center items-center flex dropdown">
       {/* Delete Modal  */}
 
       <div
-        className=" mx-auto my-auto max-h-[95vh]  w-full  max-w-md overflow-y-scroll rounded-xl  
-        bg-contentBgc px-8 py-8  font-bold  shadow-md 
-        shadow-[#364e7e1a]  scrollbar-hide "
-      >
-        <h3 className=" text-xl font-bold text-red-500  ">
-          Delete this {type}?
-        </h3>
+        className="scrollbar-hide overflow-y-scroll max-h-[95vh]  my-auto bg-contentBgc  font-bold
+        shadow-md shadow-[#364e7e1a] max-w-md mx-auto  w-full px-8 py-8 rounded-xl">
+        <h3 className="font-bold text-red-500 text-xl">Delete this {type}?</h3>
         {type === "task" ? (
-          <p className="pt-6 text-xs font-[600] tracking-wide ">
+          <p className="font-[600] tracking-wide text-xs pt-6">
             Are you sure you want to delete the "{title}" task and its subtasks?
             This action cannot be reversed.
           </p>
         ) : (
-          <p className="pt-6 text-xs font-[600] tracking-wide">
+          <p className="font-[600] tracking-wide text-xs pt-6">
             Are you sure you want to delete the "{title}" board? This action
             will remove all columns and tasks and cannot be reversed.
           </p>
         )}
 
-        <div className=" mt-4 flex w-full items-center justify-center space-x-4 ">
+        <div className=" flex w-full mt-4 items-center justify-center space-x-4 ">
           <Button variation="danger" styles="w-full" onClick={onDeleteBtnClick}>
             Delete
           </Button>
-
           <Button
-            styles="w-full"
             variation="secondary"
+            styles="w-full"
             onClick={() => {
               setIsDeleteModalOpen(false);
-            }}
-          >
+            }}>
             Cancel
           </Button>
         </div>
