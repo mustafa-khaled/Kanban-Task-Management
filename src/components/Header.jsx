@@ -8,17 +8,14 @@ import iconUp from "../assets/icon-chevron-up.svg";
 import ellipsis from "../assets/icon-vertical-ellipsis.svg";
 import HeaderDropDown from "./HeaderDropDown";
 import EllipsisMenu from "./EllipsisMenu";
-import AddEditTaskModal from "../modals/AddEditTaskModal";
-import AddEditBoardModal from "../modals/AddEditBoardModal";
 import DeleteModal from "../modals/DeleteModal";
 import Button from "./Button";
+import AddEditTask from "./tasks/AddEditTask";
 
-function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
+function Header() {
   const [openDropdown, setOpenDropdown] = useState(false);
   const [isEllipsisMenuOpen, setIsEllipsisMenuOpen] = useState(false);
-  const [boardType, setBoardType] = useState("add");
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -28,13 +25,13 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
   const onDropdownClick = () => {
     setOpenDropdown((state) => !state);
     setIsEllipsisMenuOpen(false);
-    setBoardType("add");
+    // setBoardType("add");
   };
 
   const setOpenEditModal = () => {
-    setIsBoardModalOpen(true);
     setIsEllipsisMenuOpen(false);
   };
+
   const setOpenDeleteModal = () => {
     setIsDeleteModalOpen(true);
     setIsEllipsisMenuOpen(false);
@@ -75,14 +72,18 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
         {/* Right Side */}
 
         <div className="flex items-center space-x-4 md:space-x-6">
-          <Button onClick={() => setIsTaskModalOpen((prev) => !prev)}>
-            <span className="hidden md:block">+ Add New Task</span>
-            <span className="block md:hidden">+</span>
-          </Button>
+          <AddEditTask
+            type="add"
+            openBtn={
+              <Button>
+                <span className="hidden md:block">+ Add New Task</span>
+                <span className="block md:hidden">+</span>
+              </Button>
+            }
+          />
 
           <img
             onClick={() => {
-              setBoardType("edit");
               setOpenDropdown(false);
               setIsEllipsisMenuOpen((prevState) => !prevState);
             }}
@@ -99,28 +100,9 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
           )}
         </div>
 
-        {openDropdown && (
-          <HeaderDropDown
-            setOpenDropdown={setOpenDropdown}
-            setIsBoardModalOpen={setIsBoardModalOpen}
-          />
-        )}
+        {openDropdown && <HeaderDropDown setOpenDropdown={setOpenDropdown} />}
       </header>
-      {isTaskModalOpen && (
-        <AddEditTaskModal
-          setIsAddTaskModalOpen={setIsTaskModalOpen}
-          type="add"
-          device="mobile"
-        />
-      )}
 
-      {isBoardModalOpen && (
-        <AddEditBoardModal
-          setBoardType={setBoardType}
-          type={boardType}
-          setIsBoardModalOpen={setIsBoardModalOpen}
-        />
-      )}
       {isDeleteModalOpen && (
         <DeleteModal
           setIsDeleteModalOpen={setIsDeleteModalOpen}

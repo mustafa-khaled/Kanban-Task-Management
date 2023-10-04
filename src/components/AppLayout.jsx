@@ -31,10 +31,7 @@ function AppLayout() {
       <>
         {boards.length > 0 ? (
           <>
-            <Header
-              setIsBoardModalOpen={setIsBoardModalOpen}
-              isBoardModalOpen={isBoardModalOpen}
-            />
+            <Header />
             <Home
               setIsBoardModalOpen={setIsBoardModalOpen}
               isBoardModalOpen={isBoardModalOpen}

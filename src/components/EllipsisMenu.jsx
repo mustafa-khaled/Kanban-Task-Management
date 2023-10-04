@@ -1,23 +1,27 @@
-function EllipsisMenu({ type, setOpenEditModal, setOpenDeleteModal }) {
+import AddEditBoard from "./boards/AddEditBoard";
+
+function EllipsisMenu({ type, setOpenDeleteModal }) {
   return (
     <div
       className={`absolute
-      ${type === "Boards" ? "top-16  right-5" : "top-6  right-4"}`}>
-      <div className="flex justify-end items-center">
+      ${type === "Boards" ? "right-5  top-20" : "right-4  top-6"}`}
+    >
+      <div className="flex items-center justify-end">
         <div
-          className=" w-40 text-sm z-50 font-medium shadow-md shadow-[#364e7e1a]
-         bg-bgc space-y-4 py-5 px-4 rounded-lg  h-auto pr-12">
-          <p
-            onClick={() => {
-              setOpenEditModal();
-            }}
-            className="cursor-pointer">
-            Edit {type}
-          </p>
+          className=" z-50 h-auto w-40 space-y-4 rounded-lg bg-bgc
+         px-4 py-5 pr-12 text-sm font-medium  shadow-md shadow-[#364e7e1a]"
+        >
+          {type === "Boards" && (
+            <AddEditBoard
+              type={"edit"}
+              openBtn={<p className="cursor-pointer">Edit {type}</p>}
+            />
+          )}
 
           <p
             onClick={() => setOpenDeleteModal()}
-            className="cursor-pointer text-red-500">
+            className="cursor-pointer text-red-500"
+          >
             Delete {type}
           </p>
         </div>
@@ -27,3 +31,14 @@ function EllipsisMenu({ type, setOpenEditModal, setOpenDeleteModal }) {
 }
 
 export default EllipsisMenu;
+
+{
+  /* <p
+            onClick={() => {
+              setOpenEditModal();
+            }}
+            className="cursor-pointer"
+          >
+            Edit {type}
+          </p> */
+}
