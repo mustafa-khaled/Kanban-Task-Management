@@ -66,7 +66,7 @@ function Header({ setIsBoardModalOpen, isBoardModalOpen }) {
             <img
               src={openDropdown ? iconUp : iconDown}
               alt="dropdown icon"
-              className="ml-2 w-3 md:hidden"
+              className="ml-2 w-3 cursor-pointer md:hidden"
               onClick={onDropdownClick}
             />
           </div>
