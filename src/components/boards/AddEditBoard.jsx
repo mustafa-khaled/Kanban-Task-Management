@@ -5,8 +5,8 @@ function AddEditBoard({ type, openBtn }) {
   return (
     <div>
       <Modal>
-        <Modal.Open opens="userForm">{openBtn}</Modal.Open>
-        <Modal.Window name="userForm">
+        <Modal.Open opens="addEditBoard">{openBtn}</Modal.Open>
+        <Modal.Window name="addEditBoard">
           <BoardForm type={type} />
         </Modal.Window>
       </Modal>

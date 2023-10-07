@@ -5,6 +5,7 @@ import { addBoard, editBoard } from "../../redux/boardsSlice";
 
 import crossIcon from "../../assets/icon-cross.svg";
 import Button from "../Button";
+import { closeMenu } from "../../redux/ellipsisMenuSlice";
 
 function BoardForm({ type, onCloseModal }) {
   const dispatch = useDispatch();
@@ -49,6 +50,7 @@ function BoardForm({ type, onCloseModal }) {
     } else {
       dispatch(editBoard({ name, newColumns }));
     }
+    dispatch(closeMenu());
     onCloseModal();
   };
 
@@ -67,7 +69,7 @@ function BoardForm({ type, onCloseModal }) {
   };
 
   return (
-    <div className="w-[300px] p-5 text-textColor md:w-[400px]">
+    <div className="w-[300px] p-5 font-medium text-textColor md:w-[400px]">
       <h3 className="text-lg">{type === "edit" ? "Edit" : "Add New"} Board</h3>
 
       {/* Task Name */}

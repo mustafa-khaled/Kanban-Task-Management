@@ -1,4 +1,4 @@
-// Reusable Modal  Component Using Compound Component Pattern
+// // Reusable Modal  Component Using Compound Component Pattern
 import { createPortal } from "react-dom";
 import { cloneElement, createContext, useContext, useState } from "react";
 import { useOutsideClick } from "../hooks/useOutsideClick";
@@ -25,17 +25,19 @@ function Open({ opens: opensWindowName, children }) {
 
 function Window({ children, name }) {
   const { openName, close } = useContext(ModalContext);
-  // Custom Hook To Close Modal
-  const ref = useOutsideClick(close);
+  const closeRef = useOutsideClick(() => {
+    if (name === openName) {
+      close();
+    }
+  }, true);
 
   if (name !== openName) return null;
 
   return createPortal(
     <div className="fixed left-0 top-0 z-20 h-full w-full bg-[#00000080]">
       <div
-        className="fixed left-[50%] top-[50%] z-50   max-h-[80vh]  translate-x-[-50%] translate-y-[-50%]  
-    overflow-auto rounded-lg bg-contentBgc p-[20px] shadow-md"
-        ref={ref}
+        className="nested-modal fixed left-[50%] top-[50%] z-50 max-h-[80vh] translate-x-[-50%] translate-y-[-50%] overflow-auto rounded-lg bg-contentBgc p-[20px] shadow-md"
+        ref={closeRef} // Use the ref here
       >
         <button onClick={close} className="absolute left-[20px] top-[20px]">
           <img src={crossImage} alt="crossImage" />
@@ -51,3 +53,4 @@ Modal.Open = Open;
 Modal.Window = Window;
 
 export default Modal;
+

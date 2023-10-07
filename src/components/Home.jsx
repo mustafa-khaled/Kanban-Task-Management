@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-import AddEditBoardModal from "../modals/AddEditBoardModal";
 import Column from "./Column";
 import EmptyBoard from "./EmptyBoard";
 import Sidebar from "./Sidebar";
+import AddEditBoard from "./boards/AddEditBoard";
 
 function Home() {
   const [windowSize, setWindowSize] = useState([
@@ -24,8 +24,6 @@ function Home() {
     };
   });
 
-  const [isBoardModalOpen, setIsBoardModalOpen] = useState(false);
-
   const boards = useSelector((state) => state.boards);
   const board = boards.find((board) => board.isActive === true);
   const columns = board.columns;
@@ -40,11 +38,10 @@ function Home() {
           windowSize[0] >= 768 && isSideBarOpen
             ? `ml-[261px] flex h-screen`
             : `flex h-screen gap-6`
-        }`}>
+        }`}
+    >
       {windowSize[0] >= 768 && (
         <Sidebar
-          setIsBoardModalOpen={setIsBoardModalOpen}
-          isBoardModalOpen={isBoardModalOpen}
           isSideBarOpen={isSideBarOpen}
           setIsSideBarOpen={setIsSideBarOpen}
         />
@@ -57,28 +54,26 @@ function Home() {
           {columns.map((col, index) => (
             <Column key={index} colIndex={index} />
           ))}
-          <div
-            onClick={() => {
-              setIsBoardModalOpen(true);
-            }}
-            className="h-screen bg-contentBgc flex justify-center
-             items-center font-bold text-2xl hover:text-blue
-              transition duration-300 cursor-pointer scrollbar-hide mb-2
-                mx-5 pt-[90px] min-w-[280px]
-                mt-[135px] rounded-lg">
-            + New Column
-          </div>
+
+          <AddEditBoard
+            type="edit"
+            openBtn={
+              <div
+                className="mx-5 mb-2 mt-[135px] flex
+             h-screen min-w-[280px] cursor-pointer items-center
+              justify-center rounded-lg bg-contentBgc pt-[90px] text-2xl
+                font-bold transition duration-300
+                scrollbar-hide hover:text-blue"
+              >
+                + New Column
+              </div>
+            }
+          />
         </>
       ) : (
         <>
           <EmptyBoard type="edit" />
         </>
-      )}
-      {isBoardModalOpen && (
-        <AddEditBoardModal
-          type="edit"
-          setIsBoardModalOpen={setIsBoardModalOpen}
-        />
       )}
     </div>
   );

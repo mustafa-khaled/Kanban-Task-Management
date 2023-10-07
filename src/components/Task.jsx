@@ -1,6 +1,5 @@
-import { useState } from "react";
 import { useSelector } from "react-redux";
-import TaskModal from "../modals/TaskModal";
+import ShowTask from "./tasks/ShowTask";
 
 function Task({ colIndex, taskIndex }) {
   const boards = useSelector((state) => state.boards);
@@ -8,7 +7,6 @@ function Task({ colIndex, taskIndex }) {
   const columns = board.columns;
   const col = columns.find((col, i) => i === colIndex);
   const task = col.tasks.find((task, i) => i === taskIndex);
-  const [isTaskModalOpen, setIsTaskModalOpen] = useState(false);
 
   let completed = 0;
   let subtasks = task.subtasks;
@@ -21,32 +19,33 @@ function Task({ colIndex, taskIndex }) {
   const handleOnDrag = (e) => {
     e.dataTransfer.setData(
       "text",
-      JSON.stringify({ taskIndex, prevColIndex: colIndex })
+      JSON.stringify({ taskIndex, prevColIndex: colIndex }),
     );
   };
 
   return (
-    <div>
-      <div
-        onClick={() => {
-          setIsTaskModalOpen(true);
-        }}
-        draggable
-        onDragStart={handleOnDrag}
-        className=" w-[280px] first:my-5 rounded-lg bg-contentBgc py-6 px-3 shadow-lg hover:text-blue cursor-pointer">
-        <p className="font-bold tracking-wide ">{task.title}</p>
-        <p className="font-bold text-xs tracking-tighter mt-2">
-          {completed} of {subtasks.length} completed tasks
-        </p>
-      </div>
-      {isTaskModalOpen && (
-        <TaskModal
-          colIndex={colIndex}
-          taskIndex={taskIndex}
-          setIsTaskModalOpen={setIsTaskModalOpen}
-        />
-      )}
-    </div>
+    <ShowTask
+      task={task}
+      subtasks={subtasks}
+      completed={completed}
+      taskIndex={taskIndex}
+      colIndex={colIndex}
+      columns={columns}
+      openBtn={
+        <div>
+          <div
+            draggable
+            onDragStart={handleOnDrag}
+            className=" w-[280px] cursor-pointer rounded-lg bg-contentBgc px-3 py-6 shadow-lg first:my-5 hover:text-blue"
+          >
+            <p className="font-bold tracking-wide ">{task.title}</p>
+            <p className="mt-2 text-xs font-bold tracking-tighter">
+              {completed} of {subtasks.length} completed tasks
+            </p>
+          </div>
+        </div>
+      }
+    />
   );
 }
 

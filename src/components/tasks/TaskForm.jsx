@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addTask, editTask } from "../../redux/boardsSlice";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
+import { closeMenu } from "../../redux/ellipsisMenuSlice";
 
 import crossIcon from "../../assets/icon-cross.svg";
 import Button from "../Button";
@@ -94,10 +95,11 @@ function TaskForm({ type, taskIndex, prevColIndex = 0, onCloseModal }) {
       );
     }
     onCloseModal();
+    dispatch(closeMenu());
   };
 
   return (
-    <div className="w-[300px] p-5 text-textColor md:w-[400px]">
+    <div className="w-[300px] p-5 font-medium text-textColor md:w-[400px] ">
       <h3 className=" text-lg ">{type === "edit" ? "Edit" : "Add New"} Task</h3>
       {/* Task Name */}
       <div className="mt-8 flex flex-col space-y-1">

@@ -12,7 +12,7 @@ function HeaderDropDown({ setOpenDropdown }) {
 
   return (
     <div
-      className="dropdown absolute bottom-[-100vh]  left-0 right-0 top-16 px-6 py-10 "
+      className="dropdown absolute bottom-[-100vh] left-0 right-0  top-16  px-6 py-10 "
       onClick={(e) => {
         if (e.target !== e.currentTarget) {
           return;
@@ -22,7 +22,7 @@ function HeaderDropDown({ setOpenDropdown }) {
     >
       {/* DropDown Modal */}
 
-      <div className="w-full rounded-xl bg-contentBgc py-4 shadow-md shadow-[#364e7e1a]">
+      <div className="aw-full   rounded-xl bg-contentBgc py-4 shadow-md shadow-[#364e7e1a]">
         <h3 className="mx-4 mb-8 font-semibold">
           ALL BOARDS ({boards?.length})
         </h3>
@@ -54,10 +54,10 @@ function HeaderDropDown({ setOpenDropdown }) {
               type="add"
               openBtn={
                 <p
-                  className="mt-4 cursor-pointer text-lg font-bold text-blue"
                   onClick={() => {
                     setOpenDropdown(false);
                   }}
+                  className="mt-4 cursor-pointer text-lg font-bold text-blue"
                 >
                   Create New Board!
                 </p>

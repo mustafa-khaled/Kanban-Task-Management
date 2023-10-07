@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import boardsSlice from "../redux/boardsSlice";
+import { setSubtaskCompleted } from "../redux/boardsSlice";
 
 function Subtask({ index, taskIndex, colIndex }) {
   const dispatch = useDispatch();
@@ -11,17 +11,16 @@ function Subtask({ index, taskIndex, colIndex }) {
   const checked = subtask.isCompleted;
 
   const onChange = (e) => {
-    dispatch(
-      boardsSlice.actions.setSubtaskCompleted({ index, taskIndex, colIndex })
-    );
+    dispatch(setSubtaskCompleted({ index, taskIndex, colIndex }));
   };
 
   return (
     <div
-      className=" w-full flex  hover:bg-[#635fc740]
-     rounded-md relative items-center justify-start dark:bg-[#20212c] p-3 gap-4">
+      className=" relative flex  w-full
+     items-center justify-start gap-4 rounded-md p-3 hover:bg-[#635fc740] dark:bg-[#20212c]"
+    >
       <input
-        className=" w-4 h-4  accent-blue cursor-pointer"
+        className=" h-4 w-4  cursor-pointer accent-blue"
         type="checkbox"
         checked={checked}
         onChange={onChange}

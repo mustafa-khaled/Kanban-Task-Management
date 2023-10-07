@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteBoard, setBoardActive } from "../redux/boardsSlice";
+import { toggleEllipsisMenu, changePlace } from "../redux/ellipsisMenuSlice";
 
 import Logo from "../assets/logo.svg";
 import iconDown from "../assets/icon-chevron-down.svg";
@@ -8,43 +8,27 @@ import iconUp from "../assets/icon-chevron-up.svg";
 import ellipsis from "../assets/icon-vertical-ellipsis.svg";
 import HeaderDropDown from "./HeaderDropDown";
 import EllipsisMenu from "./EllipsisMenu";
-import DeleteModal from "../modals/DeleteModal";
 import Button from "./Button";
+// Add Edit Task Modal
 import AddEditTask from "./tasks/AddEditTask";
 
 function Header() {
-  const [openDropdown, setOpenDropdown] = useState(false);
-  const [isEllipsisMenuOpen, setIsEllipsisMenuOpen] = useState(false);
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-
   const dispatch = useDispatch();
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const { showEllipsisMenu, place } = useSelector(
+    (state) => state.ellipsisMenu,
+  );
 
   const boards = useSelector((state) => state.boards);
   const board = boards.find((board) => board.isActive);
 
   const onDropdownClick = () => {
     setOpenDropdown((state) => !state);
-    setIsEllipsisMenuOpen(false);
-    // setBoardType("add");
   };
 
-  const setOpenEditModal = () => {
-    setIsEllipsisMenuOpen(false);
-  };
-
-  const setOpenDeleteModal = () => {
-    setIsDeleteModalOpen(true);
-    setIsEllipsisMenuOpen(false);
-  };
-
-  const onDeleteBtnClick = (e) => {
-    if (e.target.textContent === "Delete") {
-      dispatch(deleteBoard());
-      dispatch(setBoardActive({ index: 0 }));
-      setIsDeleteModalOpen(false);
-    } else {
-      setIsDeleteModalOpen(false);
-    }
+  const onShowEllipsisMenu = () => {
+    dispatch(toggleEllipsisMenu());
+    dispatch(changePlace("Boards"));
   };
 
   return (
@@ -85,32 +69,19 @@ function Header() {
           <img
             onClick={() => {
               setOpenDropdown(false);
-              setIsEllipsisMenuOpen((prevState) => !prevState);
+              onShowEllipsisMenu();
             }}
             src={ellipsis}
             alt="ellipsis"
             className=" h-6 cursor-pointer"
           />
-          {isEllipsisMenuOpen && (
-            <EllipsisMenu
-              type="Boards"
-              setOpenEditModal={setOpenEditModal}
-              setOpenDeleteModal={setOpenDeleteModal}
-            />
+          {showEllipsisMenu && place === "Boards" && (
+            <EllipsisMenu type="Boards" title={board?.name} />
           )}
         </div>
 
         {openDropdown && <HeaderDropDown setOpenDropdown={setOpenDropdown} />}
       </header>
-
-      {isDeleteModalOpen && (
-        <DeleteModal
-          setIsDeleteModalOpen={setIsDeleteModalOpen}
-          type="board"
-          title={board.name}
-          onDeleteBtnClick={onDeleteBtnClick}
-        />
-      )}
     </div>
   );
 }

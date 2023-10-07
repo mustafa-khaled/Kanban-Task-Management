@@ -1,6 +1,8 @@
 import AddEditBoard from "./boards/AddEditBoard";
+import ConfirmDelete from "./confirmDelete/ConfirmDelete";
+import AddEditTask from "./tasks/AddEditTask";
 
-function EllipsisMenu({ type, setOpenDeleteModal }) {
+function EllipsisMenu({ type, title, taskIndex, colIndex }) {
   return (
     <div
       className={`absolute
@@ -18,12 +20,26 @@ function EllipsisMenu({ type, setOpenDeleteModal }) {
             />
           )}
 
-          <p
-            onClick={() => setOpenDeleteModal()}
-            className="cursor-pointer text-red-500"
-          >
-            Delete {type}
-          </p>
+          {type === "task" && (
+            <AddEditTask
+              type="edit"
+              title={title}
+              taskIndex={taskIndex}
+              colIndex={colIndex}
+              openBtn={<p className="cursor-pointer">Edit {type}</p>}
+            />
+          )}
+
+          {/* Confirm On Delete  */}
+          <ConfirmDelete
+            title={title}
+            taskIndex={taskIndex}
+            colIndex={colIndex}
+            type={type}
+            openBtn={
+              <p className="cursor-pointer text-red-500">Delete {type}</p>
+            }
+          />
         </div>
       </div>
     </div>
@@ -31,14 +47,3 @@ function EllipsisMenu({ type, setOpenDeleteModal }) {
 }
 
 export default EllipsisMenu;
-
-{
-  /* <p
-            onClick={() => {
-              setOpenEditModal();
-            }}
-            className="cursor-pointer"
-          >
-            Edit {type}
-          </p> */
-}
